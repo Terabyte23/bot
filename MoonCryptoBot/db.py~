@@ -1,0 +1,24 @@
+import json
+
+BALANCE_FILE = 'balances.json'
+
+# Функция загрузки данных баланса из файла
+def load_balances():
+    try:
+        with open(BALANCE_FILE, 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"[WARNING] Файл {BALANCE_FILE} не найден. Создаю новый.")
+        return {}  # Возвращаем пустой словарь, если файл не найден
+    except json.JSONDecodeError:
+        print(f"[ERROR] Ошибка при чтении {BALANCE_FILE}. Проверьте формат файла.")
+        return {}
+
+# Функция сохранения данных баланса в файл
+def save_balances(balances):
+    try:
+        with open(BALANCE_FILE, 'w') as f:
+            json.dump(balances, f)
+        print(f"[DEBUG] Баланс успешно сохранен в {BALANCE_FILE}")
+    except Exception as e:
+        print(f"[ERROR] Ошибка при сохранении {BALANCE_FILE}: {e}")
